@@ -6,7 +6,7 @@ class ProductManager {
     #generarId() {
         let maxId = 0;
         for (let i = 0; i < this.product.length; i++) {
-            const e = this.product[i];
+            let e = this.product[i];
             if (e.id > maxId) {
                 maxId = e.id;
             }
@@ -34,7 +34,7 @@ class ProductManager {
     }
 
     getProductById(id) {
-        const find = this.product.find((e) => e.id == id);
+        let find = this.product.find((e) => e.id == id);
         find ? console.log(find) : console.log("Not found");
     }
 }
