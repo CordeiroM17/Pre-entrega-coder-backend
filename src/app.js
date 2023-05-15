@@ -1,35 +1,25 @@
-const express = require('express')
-const ProductManager = require('./productManager')
+import express from "express";
+import { productsRoute } from "./routes/product.routes.js";
 const app = express();
-const port = 3000;
+const port = 8080;
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const productManager = new ProductManager();
 
-app.get("/", async (req, res) => {
-  res.json({status: "Success", msg: "Json conectados"})
-})
-
-app.get("/products", async (req, res) => {
-  const allProducts = await productManager.getProducts();
-  res.status(200).json({ 
+app.get("/", (req, res) => {
+  return res.status(200).json({
     status: "Success", 
-    msg: "Todos los productos",
-    data: allProducts 
+    msg: "Json conectados",
   });
 });
 
-app.get("/products/:pid", async (req, res) => {
-  const allProducts = await productManager.getProducts();
-  let productId = req.params.pid;
-  let productFound = allProducts.find((product) => product.id === productId);
-  if (!productFound) {
-    return res.json({ status: "Error", data: "Product ID not found" });
-  }
-  res.status(200).json({ status: "success", data: productFound });
-});
+app.use("/api/products", productsRoute);
 
 app.get("*", (req, res) => {
-  res.json({ status: "error", data: "Page not found" });
+  return res.status(404).json({
+    status: "error",
+    msg: "error esa ruta no existe",
+    data: {},
+  });
 });
 
 app.listen(port, () => {

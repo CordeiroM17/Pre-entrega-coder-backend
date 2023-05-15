@@ -1,16 +1,15 @@
-const fs = require("fs");
-
+import fs from "fs"
 const createJsonFile = async () => {
-  if (!fs.existsSync("products.json")) {
-    return await fs.promises.writeFile("products.json", "[]");
+  if (!fs.existsSync("src/db/products.json")) {
+    return await fs.promises.writeFile("src/db/products.json", "[]");
   }
 };
 
 createJsonFile();
 
-class ProductManager {
+export class ProductManager {
   constructor() {
-    this.path = "products.json";
+    this.path = "src/db/products.json";
     this.products = [];
     this.id = 0;
   }
@@ -19,37 +18,26 @@ class ProductManager {
     const productFile = await fs.promises.readFile(this.path, "utf-8");
     const products = JSON.parse(productFile);
     this.products = products;
+    this.id = parseInt(Math.random() * 1000000 + 7);
 
     const codeError = this.products.find((prod) => prod.code == code);
 
-    if (codeError) {
+    if (codeError || title == "" || description == "" || price == "" || thumbnail == "" || code == "" || stock == "") {
       console.log("Error code, existing code");
     } else {
-      this.id++;
-      title = title || " ";
-      description = description || " ";
-      price = price || " ";
-      thumbnail = thumbnail || " ";
-      code = code || " ";
-      stock = stock || " ";
+      const product = {
+        id: this.id,
+        title,
+        description,
+        price,
+        thumbnail,
+        code,
+        stock,
+      };
 
-      if (title == "" || description == "" || price == "" || thumbnail == "" || code == "" || stock == "") {
-        console.log("Error: hay campos sin completar");
-      } else {
-        const product = {
-          id: this.id,
-          title,
-          description,
-          price,
-          thumbnail,
-          code,
-          stock,
-        };
-
-        this.products.push(product);
-        const productsString = JSON.stringify(this.products);
-        await fs.promises.writeFile(this.path, productsString);
-      }
+      this.products.push(product);
+      const productsString = JSON.stringify(this.products);
+      await fs.promises.writeFile(this.path, productsString);
     }
   }
 
@@ -71,6 +59,8 @@ class ProductManager {
     }
   }
 
+  /* 
+  <----------------ARREGLAR ENTRA EN BUCLE INFINITO--------->
   async updateProduct(id, prop, newValor) {
     const fileProducts = await fs.promises.readFile(this.path, "utf-8");
     const fileProductsParse = JSON.parse(fileProducts);
@@ -82,9 +72,10 @@ class ProductManager {
     } else {
       findProd[prop] = newValor;
       const productsString = JSON.stringify(fileProductsParse);
+      BUCLE INFINITO ACA
       await fs.promises.writeFile(this.path, productsString);
     }
-  }
+  } */
 
   async deleteProduct(id) {
     const fileProducts = await fs.promises.readFile(this.path, "utf-8");
@@ -108,4 +99,10 @@ class ProductManager {
   }
 }
 
-module.exports = ProductManager
+/* let productmanager = new ProductManager() */
+
+
+
+/* console.log(productmanager.generarId())
+console.log(productmanager.generarId())
+console.log(productmanager.generarId()) */
