@@ -23,7 +23,7 @@ productsRoute.get("/", async (req, res) => {
 
     return res.status(200).json({ 
       status: "Success", 
-      msg: "Todos los productos",
+      msg: "All products",
       data: allProducts
     });
 });

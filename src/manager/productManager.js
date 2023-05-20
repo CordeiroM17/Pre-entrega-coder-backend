@@ -119,14 +119,3 @@ export class ProductManager {
     }
   }
 }
-
-let productmanager = new ProductManager()
-
-/* productmanager.addProduct("telefono-1", "telefono de prueba-1", 30000, " ", "abc124", 12);
-productmanager.addProduct("telefono-2", "telefono de prueba-2", 30000, " ", "abc125", 12);
-productmanager.addProduct("telefono-3", "telefono de prueba-3", 2000, " ", "abc126", 12); */
-
-
-/* console.log(productmanager.generarId())
-console.log(productmanager.generarId())
-console.log(productmanager.generarId()) */
