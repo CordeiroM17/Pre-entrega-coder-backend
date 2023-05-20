@@ -19,7 +19,9 @@ export class ProductManager {
     const productFile = await fs.promises.readFile(this.path, "utf-8");
     const products = JSON.parse(productFile);
     this.products = products;
-    this.id = parseInt(Math.random() * 1000000 + 7);
+
+    const findLastProduct = this.products.slice(-1).pop()
+    this.id = findLastProduct.id + 1
 
     let title = newProduct.title;
     let description = newProduct.description;
